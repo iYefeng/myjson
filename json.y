@@ -23,7 +23,7 @@
 %token <intval> INTNUM
 %token <floatval> APPROXNUM
 %token <intval> BOOL
-%token <strval> STRING
+%token <strval> STRING NAME
 %token NUL
 
 %token START_OBJECT
@@ -38,7 +38,8 @@
 %start json
 
 %%
-json: element                          { dump($1); }
+json: /* nothing */
+    | json element                     { Object_dump($2); Object_free($2); printf("\n> ");}
 ;
 
 element: dict                          { $$ = $1;               }
@@ -47,7 +48,7 @@ element: dict                          { $$ = $1;               }
     | APPROXNUM                        { $$ = new_double($1);   }
     | INTNUM                           { $$ = new_int($1);      }
     | BOOL                             { $$ = new_boolean($1);  }
-    | NUL                              { $$ = new_null();       }
+    | NUL                              { $$ = new_nil();        }
 ;
 
 dict: START_OBJECT END_OBJECT        { $$ = new_dict(NULL);     }
@@ -59,6 +60,7 @@ pairs: pair                        { $$ = new_dict((Pair *)$1);          }
 ;
 
 pair: STRING COLON element           { $$ = new_pair($1, $3);      }
+    | NAME COLON element             { $$ = new_pair($1, $3);      }
 ;
 
 array: START_ARRAY END_ARRAY           { $$ = new_array(NULL);         }

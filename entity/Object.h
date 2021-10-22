@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <memory.h>
 
 extern void yyerror(char *s, ...);
 
@@ -21,15 +22,22 @@ typedef struct
 struct ObjectVtbl
 {
     void (*dump)(Object const *const self);
+    void (*free)(Object const *const self);
 };
 
-void Object_ctor(Object *self, int objtype);
+// 构造函数
+void Object_ctor(Object *const self, int objtype);
+
 static inline void Object_dump(Object const *const self)
 {
     (*self->vptr->dump)(self);
 }
 
-void dump(Object *obj);
+static inline void Object_free(Object const *const self)
+{
+    (*self->vptr->free)(self);
+}
+
 
 
 #endif // ENTITY_OBJECT_H

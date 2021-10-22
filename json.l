@@ -41,7 +41,9 @@ FALSE	{ yylval.intval = 0; return BOOL; }
 null    { return NUL;  }
 
    /* strings */
-\"(\\.|\"\"|[^"\n])*\"  { yylval.strval = strdup(yytext); return STRING; }
+\"(\\.|\"\"|[^"\n])*\"  { yylval.strval = strdup(yytext+1); yylval.strval[yyleng-2] = 0; return STRING; }
+
+[A-Za-z0-9_]*	{ yylval.strval = strdup(yytext); return NAME; }
 
 [ \t\n]         /* white space */
 

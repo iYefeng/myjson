@@ -10,8 +10,9 @@ typedef struct
     long value;
 } Integer;
 
+// 构造函数
+void Integer_ctor(Integer *const self, int objtype, long value);
 
-
-Object *new_int(int d);
+Object *new_int(long d);
 
 #endif // ENTITY_INTEGER_H
