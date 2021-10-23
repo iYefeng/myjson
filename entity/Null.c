@@ -29,7 +29,7 @@ Object *new_nil()
     Null *a = malloc(sizeof(Null));
     if (!a)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Null_ctor(a, 'N');

@@ -48,6 +48,6 @@ null    { return NUL;  }
 
 [ \t\n]         /* white space */
 
-.	{ yyerror("Mystery character %c\n", *yytext); }
+.	{ yyerror(NULL, "Mystery character %c\n", *yytext); }
 
 %%

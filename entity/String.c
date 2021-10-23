@@ -35,7 +35,7 @@ Object *new_string(char *d)
     String *a = malloc(sizeof(String));
     if (!a)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     String_ctor(a, 'S', d);

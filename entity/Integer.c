@@ -34,7 +34,7 @@ Object *new_int(long d)
     Integer *a = malloc(sizeof(Integer));
     if (!a)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Integer_ctor(a, 'I', d);

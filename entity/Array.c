@@ -46,7 +46,7 @@ void Array_ctor(Array *const self, int objtype, Object *elem)
     self->list = malloc(sizeof(Object) * self->capacity);
     if (!self->list)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     self->size = 0;
@@ -62,7 +62,7 @@ Object *new_array(Object *elem)
     Array *arr = malloc(sizeof(Array));
     if (!arr)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Array_ctor(arr, 'A', elem);
@@ -77,7 +77,7 @@ Object *add_element(Array *self, Object *elem)
         self->list = realloc(self->list, self->capacity);
         if (!self->list)
         {
-            yyerror("out of space");
+            yyerror(NULL, "out of space");
             exit(0);
         }
     }

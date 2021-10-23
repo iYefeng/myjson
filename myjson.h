@@ -16,8 +16,22 @@
 #include "entity/Dict.h"
 #include "entity/Array.h"
 
+struct json_state
+{
+    Object *obj;
+};
+
 /* interface to the lexer */
 extern int yylineno; /* from lexer */
-void yyerror(char *s, ...);
+void yyerror(struct json_state *pstate, char *s, ...);
+
+void emit(struct json_state *pstate, Object *self);
+
+// 读取文件，反序列化JSON
+int load(FILE *fp, Object **obj);
+// 反序列化json字符串
+int loads(char const *const str, Object **obj);
+// json序列化
+int dumps(Object const *const obj, char *strjson);
 
 #endif // MYJSON_H

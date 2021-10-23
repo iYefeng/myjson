@@ -42,7 +42,7 @@ Object *new_pair(char *key, Object *value)
 
     if (!a)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Pair_ctor(a, 'P', key, value);

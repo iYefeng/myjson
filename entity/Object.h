@@ -7,7 +7,8 @@
 #include <string.h>
 #include <memory.h>
 
-extern void yyerror(char *s, ...);
+struct json_state;
+extern void yyerror(struct json_state *pstate, char *s, ...);
 
 struct ObjectVtbl;
 

@@ -12,6 +12,12 @@
 #  include "myjson.h"
 %}
 
+%parse-param { struct json_state *pstate }
+
+%code requires {
+struct json_state;
+}
+
 %union {
   Object *obj;
   long intval;
@@ -39,7 +45,7 @@
 
 %%
 json: /* nothing */
-    | json element                     { Object_dump($2); Object_free($2); printf("\n> ");}
+    | json element                     { emit(pstate, $2); }
 ;
 
 element: dict                          { $$ = $1;               }

@@ -48,7 +48,7 @@ void Dict_ctor(Dict *const self, int objtype, Pair *pair)
     self->list = malloc(sizeof(Object) * self->capacity);
     if (!self->list)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     self->size = 0;
@@ -64,7 +64,7 @@ Object *new_dict(Pair *pair)
     Dict *dict = malloc(sizeof(Dict));
     if (!dict)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Dict_ctor(dict, 'D', pair);
@@ -79,7 +79,7 @@ Object *add_pair(Dict *self, Pair *pair)
         self->list = realloc(self->list, self->capacity);
         if (!self->list)
         {
-            yyerror("out of space");
+            yyerror(NULL, "out of space");
             exit(0);
         }
     }

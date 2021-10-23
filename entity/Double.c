@@ -33,7 +33,7 @@ Object *new_double(double d)
     Double *a = malloc(sizeof(Double));
     if (!a)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Double_ctor(a, 'F', d);

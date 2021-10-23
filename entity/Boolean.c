@@ -46,7 +46,7 @@ Object *new_boolean(char d)
 
     if (!a)
     {
-        yyerror("out of space");
+        yyerror(NULL, "out of space");
         exit(0);
     }
     Boolean_ctor(a, 'B', d);
