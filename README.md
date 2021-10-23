@@ -7,10 +7,16 @@
 
 ## 解析器提供函数
 1. 反序列化JSON字符串
-    int loads(char const *const str, Object **obj);
+```
+int loads(char const *const str, Object **obj);
+```
 
 2. 序列化JSON，返回字符串
-    int dumps(Object const *const obj, char *strjson);
+```
+int dumps(Object const *const obj, char *strjson);
+```
 
 3. 读取文件，反序列化JSON
-    int load(FILE *fp, Object **obj);
+```
+int load(FILE *fp, Object **obj);
+```
