@@ -8,13 +8,13 @@ static int Boolean_dumps_(Object const *const self, struct StringType *pstr)
     switch (this->value)
     {
     case 1:
-        res = String_append(pstr, "True");
+        res = String_append(pstr, "true");
         break;
     case 0:
-        res = String_append(pstr, "False");
+        res = String_append(pstr, "false");
         break;
     default:
-        res = String_append(pstr, "Unknown");
+        res = String_append(pstr, "unknown");
         break;
     }
     return res;
@@ -28,13 +28,13 @@ static void Boolean_debug_(Object const *const self)
     switch (this->value)
     {
     case 1:
-        printf("BOOL(True)");
+        printf("BOOL(true)");
         break;
     case 0:
-        printf("BOOL(False)");
+        printf("BOOL(false)");
         break;
     default:
-        printf("BOOL(Unknown)");
+        printf("BOOL(unknown)");
         break;
     }
 }

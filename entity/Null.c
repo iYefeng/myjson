@@ -3,13 +3,13 @@
 // dump虚函数实现
 static int Null_dumps_(Object const *const self, struct StringType *pstr)
 {
-    return String_append(pstr, "NULL");
+    return String_append(pstr, "null");
 }
 
 // debug虚函数实现
 static void Null_debug_(Object const *const self)
 {
-    printf("NULL");
+    printf("null");
 }
 
 // free虚函数实现
