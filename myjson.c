@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     res = dumps(json, strjson);
     printf("dump res= %d\n", res);
     if (res == 0) {
-        printf("json decode: %s\n", strjson->value);
+        printf("json decode SUCCESS: %s\n", strjson->value);
     }
     
     Object_free(json);
