@@ -58,6 +58,7 @@ int main(int argc, char **argv)
     Object_debug(json);
     printf("\n");
     Object_free(json);
+    
 
     printf("[TEST02]------------------------\n");
     FILE *in_f;

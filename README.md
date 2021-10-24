@@ -20,3 +20,4 @@ int dumps(Object const *const obj, char *strjson);
 ```
 int load(FILE *fp, Object **obj);
 ```
+
