@@ -32,6 +32,6 @@ int load(FILE *fp, Object **obj);
 // 反序列化json字符串
 int loads(char const *const str, Object **obj);
 // json序列化
-int dumps(Object const *const obj, char *strjson);
+int dumps(Object const *const obj, String *pstr);
 
 #endif // MYJSON_H

@@ -1,14 +1,57 @@
 #include "Array.h"
 
 // dump虚函数实现
-static void Array_dump_(Object const *const self)
+static int Array_dumps_(Object const *const self, struct StringType *pstr)
+{
+    int i;
+    int res;
+    Array *this = (Array *)self;
+
+    int extralen = (this->size - 1) * 2 + 2;
+    res = String_ensure_capacity(pstr, extralen);
+    if (res != 0)
+    {
+        return res;
+    }
+
+    res = String_append(pstr, "[");
+    if (res != 0)
+    {
+        return res;
+    }
+    for (i = 0; i < this->size; ++i)
+    {
+        res = Object_dumps((Object *)this->list[i], pstr);
+        if (res != 0)
+        {
+            return res;
+        }
+        if (i < this->size - 1)
+        {
+            res = String_append(pstr, ", ");
+            if (res != 0)
+            {
+                return res;
+            }
+        }
+    }
+    res = String_append(pstr, "]");
+    if (res != 0)
+    {
+        return res;
+    }
+    return res;
+}
+
+// debug虚函数实现
+static void Array_debug_(Object const *const self)
 {
     int i;
     Array *this = (Array *)self;
     printf("ARRAY[");
     for (i = 0; i < this->size; ++i)
     {
-        Object_dump((Object *)this->list[i]);
+        Object_debug((Object *)this->list[i]);
         if (i < this->size - 1)
         {
             printf(",");
@@ -26,7 +69,8 @@ static void Array_free_(Object const *const self)
         Array *this = (Array *)self;
         for (i = 0; i < this->size; ++i)
         {
-            if (NULL != this->list[i]) {
+            if (NULL != this->list[i])
+            {
                 Object_free(this->list[i]);
             }
         }
@@ -38,7 +82,8 @@ static void Array_free_(Object const *const self)
 void Array_ctor(Array *const self, int objtype, Object *elem)
 {
     static struct ObjectVtbl const vtbl = {
-        &Array_dump_,
+        &Array_dumps_,
+        &Array_debug_,
         &Array_free_};
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;

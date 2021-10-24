@@ -10,6 +10,12 @@
 struct json_state;
 extern void yyerror(struct json_state *pstate, char *s, ...);
 
+struct StringType;
+// 确保String存在足够内存
+extern int String_ensure_capacity(struct StringType *const self, int extralen);
+// 添加字符串到String
+extern int String_append(struct StringType *const self, char *str);
+
 struct ObjectVtbl;
 
 /* 基础类Object */
@@ -22,16 +28,22 @@ typedef struct
 // Object的虚表
 struct ObjectVtbl
 {
-    void (*dump)(Object const *const self);
+    int (*dumps)(Object const *const self, struct StringType *pstr);
+    void (*debug)(Object const *const self);
     void (*free)(Object const *const self);
 };
 
 // 构造函数
 void Object_ctor(Object *const self, int objtype);
 
-static inline void Object_dump(Object const *const self)
+static inline int Object_dumps(Object const *const self, struct StringType *pstr)
 {
-    (*self->vptr->dump)(self);
+    return (*self->vptr->dumps)(self, pstr);
+}
+
+static inline void Object_debug(Object const *const self)
+{
+    (*self->vptr->debug)(self);
 }
 
 static inline void Object_free(Object const *const self)

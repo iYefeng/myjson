@@ -1,7 +1,13 @@
 #include "Null.h"
 
 // dump虚函数实现
-static void Null_dump_(Object const *const self)
+static int Null_dumps_(Object const *const self, struct StringType *pstr)
+{
+    return String_append(pstr, "NULL");
+}
+
+// debug虚函数实现
+static void Null_debug_(Object const *const self)
 {
     printf("NULL");
 }
@@ -18,7 +24,8 @@ static void Null_free_(Object const *const self)
 void Null_ctor(Null *const self, int objtype)
 {
     static struct ObjectVtbl const vtbl = {
-        &Null_dump_,
+        &Null_dumps_,
+        &Null_debug_,
         &Null_free_};
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;

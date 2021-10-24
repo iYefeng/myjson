@@ -1,14 +1,62 @@
 #include "Dict.h"
 
+#include "String.h"
+
 // dump虚函数实现
-static void Dict_dump_(Object const *const self)
+static int Dict_dumps_(Object const *const self, struct StringType *pstr)
+{
+    int i;
+    int res;
+    Dict *this = (Dict *)self;
+
+    int extralen = (this->size - 1) * 2 + 2;
+    res = String_ensure_capacity(pstr, extralen);
+    if (res != 0)
+    {
+        return res;
+    }
+
+    res = String_append(pstr, "{");
+    if (res != 0)
+    {
+        return res;
+    }
+
+    for (i = 0; i < this->size; ++i)
+    {
+        res = Object_dumps((Object *)this->list[i], pstr);
+        if (res != 0)
+        {
+            return res;
+        }
+        if (i < this->size - 1)
+        {
+            res = String_append(pstr, ", ");
+            if (res != 0)
+            {
+                return res;
+            }
+        }
+    }
+
+    res = String_append(pstr, "}");
+    if (res != 0)
+    {
+        return res;
+    }
+
+    return res;
+}
+
+// debug虚函数实现
+static void Dict_debug_(Object const *const self)
 {
     int i;
     Dict *this = (Dict *)self;
     printf("DICT{");
     for (i = 0; i < this->size; ++i)
     {
-        Object_dump((Object *)this->list[i]);
+        Object_debug((Object *)this->list[i]);
         if (i < this->size - 1)
         {
             printf(",");
@@ -40,7 +88,8 @@ void Dict_ctor(Dict *const self, int objtype, Pair *pair)
 {
     static struct ObjectVtbl const vtbl =
         {
-            &Dict_dump_,
+            &Dict_dumps_,
+            &Dict_debug_,
             &Dict_free_};
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;

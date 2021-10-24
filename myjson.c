@@ -41,23 +41,25 @@ int loads(char const *const str, Object **obj)
     return res;
 }
 
-int dumps(Object const *const obj, char *strjson)
+int dumps(Object const *const obj, String *pstr)
 {
-
-    return 0;
+    return Object_dumps(obj, pstr);
 }
 
 int main(int argc, char **argv)
 {
     Object *json;
+    String *strjson;
     int res;
-    
+
+    printf("[TEST01]------------------------\n");
     res = loads("{\"name\":\"yefeng\"}\n", &json);
     printf("res = %d\n", res);
-    Object_dump(json);
+    Object_debug(json);
     printf("\n");
     Object_free(json);
 
+    printf("[TEST02]------------------------\n");
     FILE *in_f;
     if (argc > 1)
     {
@@ -73,16 +75,32 @@ int main(int argc, char **argv)
     }
     res = load(in_f, &json);
     printf("res = %d\n", res);
-    Object_dump(json);
-    printf("\n");
+    // Object_debug(json);
+    strjson = (String *)new_string_empty(1000);
+    res = dumps(json, strjson);
+    printf("dump res= %d\n", res);
+    if (res == 0) {
+        printf("json decode: %s\n", strjson->value);
+    }
+    
     Object_free(json);
+    Object_free(strjson);
 
 
-    res = loads("{\"id\":\"1234567890\"}\n", &json);
+    printf("[TEST03]------------------------\n");
+    res = loads("{'id\':\"1234567890\"}\n", &json);
     printf("res = %d\n", res);
-    Object_dump(json);
-    printf("\n");
+
+    // Object_debug(json);
+    strjson = (String *)new_string_empty(1000);
+    res = dumps(json, strjson);
+    printf("dump res= %d\n", res);
+    if (res == 0) {
+        printf("json decode SUCCESS: %s\n", strjson->value);
+    }
+    
     Object_free(json);
+    Object_free(strjson);
 
     return 0;
 }

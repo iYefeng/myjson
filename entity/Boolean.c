@@ -1,7 +1,28 @@
 #include "Boolean.h"
 
 // dump虚函数实现
-static void Boolean_dump_(Object const *const self)
+static int Boolean_dumps_(Object const *const self, struct StringType *pstr)
+{
+    Boolean *this = (Boolean *)self;
+    int res;
+    switch (this->value)
+    {
+    case 1:
+        res = String_append(pstr, "True");
+        break;
+    case 0:
+        res = String_append(pstr, "False");
+        break;
+    default:
+        res = String_append(pstr, "Unknown");
+        break;
+    }
+    return res;
+}
+
+
+// debug虚函数实现
+static void Boolean_debug_(Object const *const self)
 {
     Boolean *this = (Boolean *)self;
     switch (this->value)
@@ -13,7 +34,7 @@ static void Boolean_dump_(Object const *const self)
         printf("BOOL(False)");
         break;
     default:
-        printf("BOOL(UNKNOWN)");
+        printf("BOOL(Unknown)");
         break;
     }
 }
@@ -33,7 +54,8 @@ void Boolean_ctor(Boolean *const self, int objtype, int value)
     // Integer 类的虚表
     static struct ObjectVtbl const vtbl =
         {
-            &Boolean_dump_,
+            &Boolean_dumps_,
+            &Boolean_debug_,
             &Boolean_free_};
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;
