@@ -94,7 +94,7 @@ void Dict_ctor(Dict *const self, int objtype, Pair *pair)
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;
     self->capacity = 10;
-    self->list = malloc(sizeof(Object) * self->capacity);
+    self->list = (Pair **) malloc(sizeof(Pair *) * self->capacity);
     if (!self->list)
     {
         yyerror(NULL, "out of space");
@@ -125,7 +125,7 @@ Object *add_pair(Dict *self, Pair *pair)
     if (self->capacity == self->size)
     {
         self->capacity *= 2;
-        self->list = realloc(self->list, self->capacity);
+        self->list = (Pair **) realloc(self->list, sizeof(Pair *) * self->capacity);
         if (!self->list)
         {
             yyerror(NULL, "out of space");
