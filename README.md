@@ -28,3 +28,10 @@ test.c适用于测试myjson解析库开发的用例。
 make
 cat ok9.json | ./myjson_test1
 ```
+
+
+## 编译说明
+```
+git submodule init
+git submodule update
+```
