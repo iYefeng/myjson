@@ -12,7 +12,6 @@ static int Integer_dumps_(Object const *const self, struct StringType *pstr)
     return res;
 }
 
-
 // debug虚函数实现
 static void Integer_debug_(Object const *const self)
 {
@@ -20,7 +19,7 @@ static void Integer_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Integer_free_(Object * self)
+static void Integer_free_(Object *self)
 {
     if (NULL != self)
     {

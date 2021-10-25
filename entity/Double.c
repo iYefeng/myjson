@@ -19,7 +19,7 @@ static void Double_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Double_free_(Object * self)
+static void Double_free_(Object *self)
 {
     if (NULL != self)
     {

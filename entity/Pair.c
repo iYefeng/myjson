@@ -10,16 +10,16 @@ static int Pair_dumps_(Object const *const self, struct StringType *pstr)
 
     int length = strlen(this->key) + 4;
     res = String_ensure_capacity(pstr, length);
-    if (res != 0) {
+    if (res != 0)
+    {
         return res;
     }
     length = sprintf(&(pstr->value[pstr->size]), "\"%s\": ", this->key);
     pstr->size += length;
-    
+
     res = Object_dumps(this->value, pstr);
     return res;
 }
-
 
 // debug虚函数实现
 static void Pair_debug_(Object const *const self)
@@ -33,12 +33,13 @@ static void Pair_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Pair_free_(Object * self)
+static void Pair_free_(Object *self)
 {
     if (NULL != self)
     {
         Pair *this = (Pair *)self;
-        if (NULL == this->key) {
+        if (NULL == this->key)
+        {
             free(this->key);
         }
         Object_free(this->value);
