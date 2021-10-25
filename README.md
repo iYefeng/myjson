@@ -26,8 +26,10 @@ int load(FILE *fp, Object **obj);
 test.c适用于测试myjson解析库开发的用例。
 ```
 make
-cat ok9.json | ./checkjson
-
+cat test/ok9.json | ./checkjson
+或
+./checkjson test/ok9.json
+或
 make check
 ```
 

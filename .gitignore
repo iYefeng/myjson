@@ -55,4 +55,4 @@ dkms.conf
 *.lex.c
 myjson
 myjson_test1
-ok8.json
+test2/*

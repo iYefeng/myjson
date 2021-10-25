@@ -27,16 +27,11 @@ clean:
 	rm $(TARGET1) $(TARGET2) json.tab.h $(OBJS) test1.o checkjson.o
 
 check:	$(TARGET2)
-	./checkjson ok1.json
-	./checkjson ok2.json
-	./checkjson ok3.json
-	./checkjson ok4.json
-	./checkjson ok5.json
-	./checkjson ok6.json
-	./checkjson ok7.json
-	./checkjson ok9.json
-	./checkjson ok10.json
-	./checkjson ok11.json
+	@for file in ./test/* ; \
+	do \
+		./checkjson $$file ; \
+		echo  ; \
+	done
 
 
 %.lex.c:%.l
