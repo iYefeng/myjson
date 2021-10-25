@@ -147,6 +147,11 @@ Object *add_pair(Dict *self, Pair *pair)
     {
         HASH_ADD_KEYPTR(hh, self->hash_table, pair->key, strlen(pair->key), pair);
         ++(self->size);
+    } else {
+        Object *tmp = s->value;
+        s->value = pair->value;
+        pair->value = tmp;
+        Object_free((Object *)pair);
     }
     return (Object *)self;
 }

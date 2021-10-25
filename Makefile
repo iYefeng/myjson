@@ -36,6 +36,7 @@ check:	$(TARGET2)
 	./checkjson ok7.json
 	./checkjson ok9.json
 	./checkjson ok10.json
+	./checkjson ok11.json
 
 
 %.lex.c:%.l
