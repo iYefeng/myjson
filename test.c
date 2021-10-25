@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     }
     
     Object_free(json);
-    Object_free(strjson);
+    Object_free((Object *)strjson);
 
 
     printf("[TEST03]------------------------\n");
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     }
     
     Object_free(json);
-    Object_free(strjson);
+    Object_free((Object *)strjson);
 
     return 0;
 }

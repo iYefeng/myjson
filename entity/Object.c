@@ -16,7 +16,7 @@ static void Object_debug_(Object const *const self)
 }
 
 // free虚函数
-static void Object_free_(Object const *const self)
+static void Object_free_(Object *self)
 {
     assert(0); // 纯虚函数不能被调用
 }
@@ -33,5 +33,3 @@ void Object_ctor(Object *const self, int objtype)
     self->vptr = &vtbl;
     self->objtype = objtype;
 }
-
-

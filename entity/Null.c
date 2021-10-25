@@ -13,7 +13,7 @@ static void Null_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Null_free_(Object const *const self)
+static void Null_free_(Object *self)
 {
     if (NULL != self)
     {

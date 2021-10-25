@@ -20,7 +20,6 @@ static int Boolean_dumps_(Object const *const self, struct StringType *pstr)
     return res;
 }
 
-
 // debug虚函数实现
 static void Boolean_debug_(Object const *const self)
 {
@@ -40,7 +39,7 @@ static void Boolean_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Boolean_free_(Object const *const self)
+static void Boolean_free_(Object *self)
 {
     if (NULL != self)
     {

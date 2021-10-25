@@ -20,7 +20,7 @@ static void Integer_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Integer_free_(Object const *const self)
+static void Integer_free_(Object * self)
 {
     if (NULL != self)
     {

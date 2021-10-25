@@ -66,7 +66,7 @@ static void Dict_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Dict_free_(Object const *const self)
+static void Dict_free_(Object * self)
 {
     int i;
     if (NULL != self)

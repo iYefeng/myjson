@@ -33,7 +33,7 @@ static void Pair_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Pair_free_(Object const *const self)
+static void Pair_free_(Object * self)
 {
     if (NULL != self)
     {

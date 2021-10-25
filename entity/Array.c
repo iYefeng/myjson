@@ -61,7 +61,7 @@ static void Array_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void Array_free_(Object const *const self)
+static void Array_free_(Object *self)
 {
     int i;
     if (NULL != self)
@@ -88,7 +88,7 @@ void Array_ctor(Array *const self, int objtype, Object *elem)
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;
     self->capacity = 10;
-    self->list = (Object **) malloc(sizeof(Object *) * self->capacity);
+    self->list = (Object **)malloc(sizeof(Object *) * self->capacity);
     if (!self->list)
     {
         yyerror(NULL, "out of space");
@@ -119,7 +119,7 @@ Object *add_element(Array *self, Object *elem)
     if (self->capacity == self->size)
     {
         self->capacity *= 2;
-        self->list = (Object **) realloc(self->list, sizeof(Object *) * self->capacity);
+        self->list = (Object **)realloc(self->list, sizeof(Object *) * self->capacity);
         if (!self->list)
         {
             yyerror(NULL, "out of space");

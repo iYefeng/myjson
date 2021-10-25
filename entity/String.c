@@ -19,7 +19,7 @@ static void String_debug_(Object const *const self)
 }
 
 // free虚函数实现
-static void String_free_(Object const *const self)
+static void String_free_(Object *self)
 {
     if (NULL != self)
     {
@@ -72,9 +72,12 @@ int String_ensure_capacity(String *const self, int extralen)
 {
     if (extralen > (self->capacity - self->size - 1))
     {
-        if (extralen > self->capacity) {
+        if (extralen > self->capacity)
+        {
             self->capacity += extralen;
-        } else {
+        }
+        else
+        {
             self->capacity *= 2;
         }
         self->value = realloc(self->value, sizeof(char) * self->capacity);
@@ -92,9 +95,12 @@ int String_append(String *const self, char *str)
     int length = strlen(str);
     if (length > (self->capacity - self->size - 1))
     {
-        if (length > self->capacity) {
+        if (length > self->capacity)
+        {
             self->capacity += length;
-        } else {
+        }
+        else
+        {
             self->capacity *= 2;
         }
         self->value = realloc(self->value, sizeof(char) * self->capacity);

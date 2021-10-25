@@ -30,7 +30,7 @@ struct ObjectVtbl
 {
     int (*dumps)(Object const *const self, struct StringType *pstr);
     void (*debug)(Object const *const self);
-    void (*free)(Object const *const self);
+    void (*free)(Object *self);
 };
 
 // 构造函数
@@ -46,11 +46,9 @@ static inline void Object_debug(Object const *const self)
     (*self->vptr->debug)(self);
 }
 
-static inline void Object_free(Object const *const self)
+static inline void Object_free(Object *self)
 {
     (*self->vptr->free)(self);
 }
-
-
 
 #endif // ENTITY_OBJECT_H
