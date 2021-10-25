@@ -36,4 +36,6 @@ make check
 ```
 git submodule init
 git submodule update
+make
+make check
 ```
