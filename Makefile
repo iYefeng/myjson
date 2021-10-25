@@ -1,21 +1,30 @@
-all:	myjson
+TARGET1 = myjson_test1
 
-myjson:	json.l json.y \
-	entity/Object.c entity/Object.h \
-	entity/Integer.c entity/Integer.h \
-	entity/Double.c entity/Double.h \
-	entity/Boolean.c entity/Boolean.h \
-	entity/String.c entity/String.h \
-	entity/Null.c entity/Null.h \
-	entity/Pair.c entity/Pair.h \
-	entity/Dict.c entity/Dict.h \
-	entity/Array.c entity/Array.h \
-	myjson.h myjson.c test.c
+CCTOOL = gcc
+CXXTOOL = g++
+LINKTOOL = g++
+ARTOOL = ar
 
-	bison -d json.y
-	flex -o json.lex.c json.l
-	cc -o $@ json.tab.c json.lex.c entity/Object.c entity/Integer.c entity/Double.c entity/Boolean.c \
-	entity/String.c entity/Null.c entity/Pair.c entity/Dict.c entity/Array.c myjson.c test.c
+OBJS =  $(patsubst %.c,%.o,$(wildcard entity/*.c))
+OBJS += myjson.o json.tab.o json.lex.o
+
+all:	$(TARGET1)
+
+$(TARGET1):	$(OBJS) test.o
+	$(LINKTOOL) -o $(TARGET1) $(OBJS) test.o
 
 clean:
-	rm myjson json.tab.c json.tab.h json.lex.c
+	rm $(TARGET1) json.tab.h $(OBJS) test.o
+
+%.lex.c:%.l
+	@echo flex Compiling [$<]
+	flex -o $@ $<
+
+%.tab.c: %.y
+	@echo bison Compiling [$<]
+	bison -d $<
+
+%.o: %.c
+	@echo Compiling [$<]
+	$(CCTOOL) -o $@  -c $< $(CCFLAGS)
+

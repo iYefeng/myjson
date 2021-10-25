@@ -54,4 +54,5 @@ dkms.conf
 *.tab.h
 *.lex.c
 myjson
+myjson_test1
 ok8.json
