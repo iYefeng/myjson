@@ -1,20 +1,42 @@
-TARGET1 = myjson_test1
+TARGET1 = test1
+TARGET2 = checkjson
 
 CCTOOL = gcc
 CXXTOOL = g++
 LINKTOOL = g++
 ARTOOL = ar
 
+INC = -I./third-party/uthash/include
+
 OBJS =  $(patsubst %.c,%.o,$(wildcard entity/*.c))
 OBJS += myjson.o json.tab.o json.lex.o
 
-all:	$(TARGET1)
+CCFLAGS += $(INC) 
 
-$(TARGET1):	$(OBJS) test.o
-	$(LINKTOOL) -o $(TARGET1) $(OBJS) test.o
+.PHONY : all clean check
+
+all:	$(TARGET1) $(TARGET2)
+
+$(TARGET1):	$(OBJS) test1.o
+	$(LINKTOOL) -o $(TARGET1) $(OBJS) test1.o
+
+$(TARGET2):	$(OBJS) checkjson.o
+	$(LINKTOOL) -o $(TARGET2) $(OBJS) checkjson.o
 
 clean:
-	rm $(TARGET1) json.tab.h $(OBJS) test.o
+	rm $(TARGET1) $(TARGET2) json.tab.h $(OBJS) test1.o checkjson.o
+
+check:	$(TARGET2)
+	./checkjson ok1.json
+	./checkjson ok2.json
+	./checkjson ok3.json
+	./checkjson ok4.json
+	./checkjson ok5.json
+	./checkjson ok6.json
+	./checkjson ok7.json
+	./checkjson ok9.json
+	./checkjson ok10.json
+
 
 %.lex.c:%.l
 	@echo flex Compiling [$<]
@@ -26,5 +48,5 @@ clean:
 
 %.o: %.c
 	@echo Compiling [$<]
-	$(CCTOOL) -o $@  -c $< $(CCFLAGS)
+	$(CCTOOL) -o $@  -c $< $(CCFLAGS) $(CCFLAGS)
 

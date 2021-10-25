@@ -7,9 +7,10 @@ static int Dict_dumps_(Object const *const self, struct StringType *pstr)
 {
     int i;
     int res;
+    Pair *current_pair, *tmp = NULL;
     Dict *this = (Dict *)self;
 
-    int extralen = (this->size - 1) * 2 + 2;
+    int extralen = this->size * 2 + 2;
     res = String_ensure_capacity(pstr, extralen);
     if (res != 0)
     {
@@ -22,16 +23,22 @@ static int Dict_dumps_(Object const *const self, struct StringType *pstr)
         return res;
     }
 
-    for (i = 0; i < this->size; ++i)
+    current_pair = this->hash_table;
+    if (NULL != current_pair)
     {
-        res = Object_dumps((Object *)this->list[i], pstr);
+        Object_dumps((Object *)current_pair, pstr);
         if (res != 0)
         {
             return res;
         }
-        if (i < this->size - 1)
+        for (current_pair = current_pair->hh.next; current_pair != NULL; current_pair = current_pair->hh.next)
         {
             res = String_append(pstr, ", ");
+            if (res != 0)
+            {
+                return res;
+            }
+            Object_dumps((Object *)current_pair, pstr);
             if (res != 0)
             {
                 return res;
@@ -52,16 +59,22 @@ static int Dict_dumps_(Object const *const self, struct StringType *pstr)
 static void Dict_debug_(Object const *const self)
 {
     int i;
+    Pair *current_pair = NULL;
+    Pair *tmp = NULL;
     Dict *this = (Dict *)self;
     printf("DICT{");
-    for (i = 0; i < this->size; ++i)
+
+    current_pair = this->hash_table;
+    if (NULL != current_pair)
     {
-        Object_debug((Object *)this->list[i]);
-        if (i < this->size - 1)
+        Object_debug((Object *)current_pair);
+        for (current_pair = current_pair->hh.next; current_pair != NULL; current_pair = current_pair->hh.next)
         {
             printf(",");
+            Object_debug((Object *)current_pair);
         }
     }
+
     printf("}");
 }
 
@@ -69,17 +82,21 @@ static void Dict_debug_(Object const *const self)
 static void Dict_free_(Object *self)
 {
     int i;
+    Pair *current_pair, *tmp = NULL;
+
     if (NULL != self)
     {
         Dict *this = (Dict *)self;
-        for (i = 0; i < this->size; ++i)
+
+        if (NULL != this->hash_table)
         {
-            if (NULL != this->list[i])
+            HASH_ITER(hh, this->hash_table, current_pair, tmp)
             {
-                Object_free((Object *)this->list[i]);
+                HASH_DEL(this->hash_table, current_pair); /* delete it (users advances to next) */
+                Object_free((Object *)current_pair);
             }
         }
-        free(this->list);
+
         free(this);
     }
 }
@@ -94,17 +111,12 @@ void Dict_ctor(Dict *const self, int objtype, Pair *pair)
             &Dict_free_};
     Object_ctor(&self->super, objtype);
     self->super.vptr = &vtbl;
-    self->capacity = 10;
-    self->list = (Pair **)malloc(sizeof(Pair *) * self->capacity);
-    if (!self->list)
-    {
-        yyerror(NULL, "out of space");
-        exit(0);
-    }
+    self->hash_table = NULL;
     self->size = 0;
+
     if (NULL != pair)
     {
-        self->list[self->size] = pair;
+        HASH_ADD_KEYPTR(hh, self->hash_table, pair->key, strlen(pair->key), pair);
         ++(self->size);
     }
 }
@@ -123,17 +135,18 @@ Object *new_dict(Pair *pair)
 
 Object *add_pair(Dict *self, Pair *pair)
 {
-    if (self->capacity == self->size)
+    Pair *s = NULL;
+
+    if (NULL == pair)
     {
-        self->capacity *= 2;
-        self->list = (Pair **)realloc(self->list, sizeof(Pair *) * self->capacity);
-        if (!self->list)
-        {
-            yyerror(NULL, "out of space");
-            exit(0);
-        }
+        return (Object *)self;
     }
-    self->list[self->size] = pair;
-    ++(self->size);
+
+    HASH_FIND_STR(self->hash_table, pair->key, s); /* id already in the hash? */
+    if (s == NULL)
+    {
+        HASH_ADD_KEYPTR(hh, self->hash_table, pair->key, strlen(pair->key), pair);
+        ++(self->size);
+    }
     return (Object *)self;
 }

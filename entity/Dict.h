@@ -7,8 +7,7 @@
 typedef struct
 {
     Object super; /* type D */
-    Pair **list;
-    int capacity;
+    Pair *hash_table;
     int size;
 } Dict;
 

@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     }
     res = load(in_f, &json);
     printf("res = %d\n", res);
-    // Object_debug(json);
+    // Object_debug(json); printf("\n");
     strjson = (String *)new_string_empty(1000);
     res = dumps(json, strjson);
     printf("dump res= %d\n", res);
