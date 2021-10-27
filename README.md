@@ -13,7 +13,7 @@ int loads(char const *const str, Object **obj);
 
 2. 序列化JSON，返回字符串
 ```
-int dumps(Object const *const obj, char *strjson);
+int dumps(Object const *const obj, String *pstr);
 ```
 
 3. 读取文件，反序列化JSON
