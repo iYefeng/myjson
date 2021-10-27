@@ -54,5 +54,6 @@ dkms.conf
 *.tab.h
 *.lex.c
 myjson
+checkjson
 myjson_test1
 test2/*
