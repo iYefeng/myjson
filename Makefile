@@ -38,7 +38,7 @@ check:	$(TARGET2)
 	@echo flex Compiling [$<]
 	flex -o $@ $<
 
-%.tab.c: %.y
+%.tab.c %.tab.h:%.y
 	@echo bison Compiling [$<]
 	bison -d $<
 
